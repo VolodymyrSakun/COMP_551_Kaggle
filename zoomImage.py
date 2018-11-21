@@ -81,7 +81,7 @@ def zoomImage(fileIn, fileOut, encoding='latin1', frameSize=30, maxOccurence=10,
     images = np.load(fileIn, encoding='latin1')
     imagesReduced = np.zeros(shape=images.shape, dtype=object)
     imagesReduced[:, 0] = images[:, 0]
-    for i in range(0, 10000, 1):
+    for i in range(0, len(images), 1):
         if i%100 == 0:
             print(i)    
         image = (images[i][1]).reshape(100, 100)
@@ -95,4 +95,9 @@ def zoomImage(fileIn, fileOut, encoding='latin1', frameSize=30, maxOccurence=10,
     
 zoomImage('train_images.npy', 'train_images30x30.npy', encoding='latin1', frameSize=30, maxOccurence=10, reshape=True)
 zoomImage('test_images.npy', 'test_images30x30.npy', encoding='latin1', frameSize=30, maxOccurence=10, reshape=True)    
+
+
+
+
+
 

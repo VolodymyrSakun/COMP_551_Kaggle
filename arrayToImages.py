@@ -32,7 +32,7 @@ def arrayToImages(fileTrain, fileTest, fileLabelsTrain, trainOutDir, testOutDir,
     os.chdir(workingDir)   
      
     # store training images    
-    for i in range(0, 10000, 1):
+    for i in range(0, 100, 1):
         if i%100 == 0 and verbose:
             print(i)
         category = str(labelsTrain.Category.loc[i])
@@ -52,9 +52,14 @@ def arrayToImages(fileTrain, fileTest, fileLabelsTrain, trainOutDir, testOutDir,
         os.mkdir(testSubdir)
     except:
         pass  
-    os.chdir(testSubdir) 
-        
-    for i in range(0, 10000, 1):
+    os.chdir(testSubdir)
+    testSubdir2 = os.path.join(testSubdir, 'Unknown')
+    try:
+        os.mkdir(testSubdir2)
+    except:
+        pass     
+    os.chdir(testSubdir2)
+    for i in range(0, 100, 1):
         if i%100 == 0 and verbose:
             print(i)
         image = (imagesTest[i][1]).reshape(originalShape[0], originalShape[1])
@@ -65,7 +70,10 @@ def arrayToImages(fileTrain, fileTest, fileLabelsTrain, trainOutDir, testOutDir,
         
     os.chdir(workingDir)
 
-arrayToImages('train_images30x30Clean.npy', 'test_images30x30Clean.npy',\
-    'train_labels.csv', 'training_set50', 'test_set50',  (30, 30),\
-    newShape=(50, 50), smoothing=Image.BICUBIC, imageFormat='png', verbose=True)
+#arrayToImages('train_images30x30CleanCentered.npy', 'test_images30x30CleanCentered.npy',\
+#    'train_labels.csv', 'training_set50', 'test_set50',  (30, 30),\
+#    newShape=(50, 50), smoothing=Image.BICUBIC, imageFormat='png', verbose=True)
 
+arrayToImages('train_images30x30CleanCentered.npy', 'test_images30x30CleanCentered.npy',\
+    'train_labels.csv', 'training_set250', 'test_set250',  (30, 30),\
+    newShape=(250, 250), smoothing=Image.BICUBIC, imageFormat='png', verbose=True)

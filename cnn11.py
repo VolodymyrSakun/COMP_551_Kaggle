@@ -43,8 +43,6 @@ input_shape = (img_height_rows, img_width_cols, 1)
 
 images = np.load('train_images30x30Extended.npy', encoding='latin1')
 labelsTrain = pd.read_csv('train_labels_extended.csv')
-#images = np.load('train_images30x30Clean.npy', encoding='latin1')
-#labelsTrain = pd.read_csv('train_labels.csv')
 
 labelsTrain.drop(columns=['Id'], inplace=True)
 nClasses = labelsTrain.Category.nunique()

@@ -241,7 +241,7 @@ labelsForecast['SVClinears'] = labelsSVClinears
 
 # rbf svc
 print("RBF SVC")
-classifierSVC = svm.SVC(C=1.0, kernel='rbf', degree=3, gamma=0.001,\
+classifierSVC = svm.SVC(C=1.5, kernel='rbf', degree=3, gamma=0.001,\
     coef0=0.0, shrinking=True, probability=False, tol=0.001, cache_size=200,\
     class_weight=None, verbose=False, max_iter=-1, decision_function_shape='ovr',\
     random_state=None)
@@ -252,9 +252,9 @@ y_SVC = fitPredict(classifierSVC, dataTrain, dataForecast, columnsTrain, 'Y')
 labelsSVC = list(labelencoder_X.inverse_transform(y_SVC))
 labelsForecast['SVC'] = labelsSVC
 
-print("Random Forest") # 13%
+print("Random Forest") 
 classifierRF = RandomForestClassifier(n_estimators=10, criterion='entropy',\
-    max_depth=3, min_samples_split=20, min_samples_leaf=1,\
+    max_depth=None, min_samples_split=12, min_samples_leaf=1,\
     min_weight_fraction_leaf=0.0, max_features=None, max_leaf_nodes=None,\
     min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True,\
     oob_score=False, warm_start=False, class_weight=None)
@@ -266,8 +266,8 @@ labelsRF = list(labelencoder_X.inverse_transform(y_RF))
 labelsForecast['RF'] = labelsRF
 
 # XGBoost
-print("XGBoost") # 13%
-classifierXG = XGBClassifier(max_depth=3, learning_rate=0.1, n_estimators=10,\
+print("XGBoost") 
+classifierXG = XGBClassifier(max_depth=4, learning_rate=0.1, n_estimators=10,\
     silent=False, objective='multi:softprob', booster='gbtree', \
     n_jobs=1, gamma=0, min_child_weight=1, max_delta_step=0, subsample=1,\
     colsample_bytree=1, colsample_bylevel=1, reg_alpha=0, reg_lambda=1,\
@@ -279,7 +279,7 @@ y_XG = fitPredict(classifierXG, dataTrain, dataForecast, columnsTrain, 'Y')
 labelsXG = list(labelencoder_X.inverse_transform(y_XG))
 labelsForecast['XG'] = labelsXG
 
-# 10%
+
 print("MultinomialNB") # only 1 core
 classifierNB = MultinomialNB(alpha=1.0)
 
@@ -316,4 +316,23 @@ writer.save()
 writer = pd.ExcelWriter('labelsForecast.xlsx')
 labelsForecast.to_excel(writer,'Sheet1')
 writer.save()
+
+#space = np.linspace(1, 50, 10, dtype=int)
+#results = pd.DataFrame(index=space, columns=['Accuracy', 'F1_Average'])
+#for i in space:
+#    print("Random Forest") 
+#    classifierRF = RandomForestClassifier(n_estimators=10, criterion='entropy',\
+#        max_depth=None, min_samples_split=12, min_samples_leaf=i,\
+#        min_weight_fraction_leaf=0.0, max_features=None, max_leaf_nodes=None,\
+#        min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True,\
+#        oob_score=False, warm_start=False, class_weight=None)
+#    
+#    scoreRF = validateFit(classifierRF, dataTrain, columnsTrain, 'Y', nFolds=5, Labels=None)
+#    results.loc[i, 'Accuracy'] = scoreRF['Accuracy']
+#    results.loc[i, 'F1_Average'] = scoreRF['F1_Average']
+#
+#writer = pd.ExcelWriter('min_samples_leaf.xlsx')
+#results.to_excel(writer,'Sheet1')
+#writer.save()
+
 
